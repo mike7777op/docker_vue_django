@@ -1,0 +1,28 @@
+version: "3.7"
+
+services:
+    tutorial-vue:
+        container_name: tutorial-vue
+        image: varlive/vuejs:livems_20220225
+
+        deploy:
+            replicas: 1
+            restart_policy:
+                condition: on-failure
+
+        volumes :
+          - ./:/vue-ms
+
+        # command: sh -c "cd /vue-ms && npm install"
+        command: sh -c "cd /vue-ms && npm run serve"
+        # command: sh -c "cd /vue-ms && npm run build && serve -s dist"
+
+        ports:
+          - "8080:8080"
+          #- "8080:5000"
+
+        networks:
+          - tutorial-fe
+
+networks:
+    tutorial-fe:

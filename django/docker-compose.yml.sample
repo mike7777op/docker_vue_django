@@ -1,0 +1,29 @@
+version: "3.7"
+
+services:
+    tutorial-django:
+        container_name: tutorial-django
+        image: varlive/django3:aws_220406s
+
+        deploy:
+            replicas: 1
+            restart_policy:
+                condition: on-failure
+
+        volumes:
+            - ./manage.py:/code/manage.py
+            - ./backend:/code/backend
+            - ./api:/code/api
+            - ./template:/code/template
+            - ./img:/code/img
+
+        command: bash -c "cd /code && python manage.py runserver 0.0.0.0:8000"
+
+        ports:
+            - "8000:8000"
+
+        networks:
+            - tutorial-be
+
+networks:
+    tutorial-be:
